@@ -19,3 +19,5 @@ How are the AEM instances configured?  Each of the AEM images (author, publish) 
 This has only been tested on a Windows. Also, I have left the bash shell scripts as is, they will still continue to work from the docker terminal
 
 one benefitial command i found was the docker exec <container> sh command to ssh into the shell https://docs.docker.com/engine/reference/commandline/exec/#try-to-run-docker-exec-on-a-paused-container
+
+To test your wesites locally, do a docker-machine ip and add a host entry in your windows box (etc/drivers) for the ip to the production domain name
