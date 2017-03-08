@@ -2,9 +2,11 @@
 FROM aem_6-2_base
 LABEL version="1.0"
 LABEL description="AEM publish dispatcher.  Uses Apache and Google Pagespeed"
-MAINTAINER dbenge
+MAINTAINER pramar
 
-RUN apt-get -y install apache2 apache2-utils libssl1.0.0 libssl-dev
+RUN apt-get -y install apache2 apache2-utils libodbc1 libssl1.0.0 libssl-dev
+
+#RUN sudo netstat -anop | grep apache
 
 # Configure timezone and locale
 RUN echo "US/Pacific" > /etc/timezone && \
@@ -22,13 +24,20 @@ RUN dpkg -i mod-pagespeed-*.deb
 RUN apt-get -y -f install
 
 # Install dispatcher mod - Linux x86 64bit OpenSSL 1.0
-#ADD https://www.adobeaemcloud.com/content/companies/public/adobe/dispatcher/dispatcher/_jcr_content/top/download_10/file.res/dispatcher-apache2.4-linux-x86-64-ssl10-4.1.9.tar.gz /aem/dispatcher/module/
+# ADD https://www.adobeaemcloud.com/content/companies/public/adobe/dispatcher/dispatcher/_jcr_content/top/download_10/file.res/dispatcher-apache2.4-linux-x86-64-ssl10-4.1.9.tar.gz /aem/dispatcher/module/
 # Install dispatcher mod - Linux x86 64bit OpenSSL 1.0
-#ADD https://www.adobeaemcloud.com/content/companies/public/adobe/dispatcher/dispatcher/_jcr_content/top/download_8/file.res/dispatcher-apache2.4-linux-x86-64-4.1.9.tar.gz /aem/dispatcher/module/
-ADD https://www.adobeaemcloud.com/content/companies/public/adobe/dispatcher/dispatcher/_jcr_content/top/download_10/file.res/dispatcher-apache2.4-linux-x86-64-4.1.11.tar.gz /aem/dispatcher/module/
-WORKDIR /aem/dispatcher/module/
-RUN tar -zxvf *.gz
+# ADD https://www.adobeaemcloud.com/content/companies/public/adobe/dispatcher/dispatcher/_jcr_content/top/download_8/file.res/dispatcher-apache2.4-linux-x86-64-4.1.9.tar.gz /aem/dispatcher/module/
+ADD https://www.adobeaemcloud.com/content/companies/public/adobe/dispatcher/dispatcher/_jcr_content/top/download_8/file.res/dispatcher-apache2.4-linux-x86-64-4.2.2.tar.gz /usr/lib/apache2/modules/
+
+#ADD resources/mods-available/dispatcher-apache2.4-linux-x86-64-4.1.11.tar.gz /aem/dispatcher/module/dispatcher-apache2.4-linux-x86-64-4.1.11.tar.gz
+#ADD resources/dispatcher/dispatcher-apache2-4-4-2-1.so /aem/dispatcher/module/dispatcher-apache2-4-4-2-1.so
+
+WORKDIR /usr/lib/apache2/modules/
+RUN tar -zxvf *.tar.gz
+RUN ln -s dispatcher-apache2.4-4.2.2.so mod_dispatcher.so
+RUN rm dispatcher-apache2.4-linux-x86-64-4.2.2.tar.gz
 RUN chown -R www-data:www-data *
+
 WORKDIR /aem/dispatcher/
 RUN mkdir logs
 COPY resources/dispatcher.any dispatcher.any
@@ -47,6 +56,9 @@ RUN a2enmod rewrite dispatcher ssl pagespeed expires headers
 RUN a2dissite 000-default
 RUN a2ensite aemsite
 
+#RUN /etc/init.d/apache2 start
+
+#ENTRYPOINT ["/etc/init.d/apache2", "start"]
 ENTRYPOINT ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 
 EXPOSE 80 443
