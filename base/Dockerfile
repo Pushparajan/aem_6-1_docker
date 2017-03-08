@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install utility for AEM
 ADD aemInstaller.py /aem/aemInstaller.py
-ADD main.py /main.py
+#ADD main.py /main.py
 
 # Add the oak-run jar and compaction.sh for compaction
 ADD oak-run-1.2.2.jar /aem/author/oak-run.jar
@@ -37,4 +37,4 @@ RUN apt-get install -y --force-yes oracle-java8-installer
 ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle/jre/bin/java
 ENV PATH $PATH:/usr/lib/jvm/java-8-oracle/jre/bin/java
 
-RUN ["python","main.py","-i"]
+#RUN ["python","main.py","-i"]
