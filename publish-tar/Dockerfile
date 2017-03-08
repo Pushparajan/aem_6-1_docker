@@ -10,7 +10,7 @@ ADD resources/license.properties /aem/publish/license.properties
 ADD resources/postInstallHook.py /aem/publish/postInstallHook.py
 ADD resources/packagelist.txt /aem/publish/packagelist.txt
 COPY resources/packages/ /aem/publish/packages
-RUN ls -l /aem/publish/packages
+#RUN ls -l /aem/publish/packages
 
 # Extracts AEM
 WORKDIR /aem/publish
