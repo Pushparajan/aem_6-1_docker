@@ -17,3 +17,5 @@ The /resources/osgi directory is where the osgi configurations are expected to b
 How are the AEM instances configured?  Each of the AEM images (author, publish) are configured via quickstart properties.  The quickstart file that is responsible for the configuration can be found under each images resources subdirectory.
 
 This has only been tested on a Windows. Also, I have left the bash shell scripts as is, they will still continue to work from the docker terminal
+
+one benefitial command i found was the docker exec <container> sh command to ssh into the shell https://docs.docker.com/engine/reference/commandline/exec/#try-to-run-docker-exec-on-a-paused-container
