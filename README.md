@@ -2,6 +2,8 @@
 # Docker AEM (Windows)
 This project holds all our 6.2 AEM docker images we have built so far.  At this time we have only completed and tested the standard tar MK based images.  We will be working to include more as time goes on.
 
+Please install Docker Toolbox for windows from https://docs.docker.com/toolbox/toolbox_install_windows/ 
+
 The easiest way to get start would be to clone this repo, start  Docker Quickstart Terminal, then CD to the compose2 folder and execute docker-compose up
 
 ## Install additional packages
