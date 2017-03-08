@@ -31,19 +31,28 @@ c.setopt(c.URL, baseUrl + "/etc/replication/agents.author/publish/jcr:content.js
 c.setopt(pycurl.USERPWD, password)
 c.perform()
 
+for root, dirs, files in os.walk("/aem"):
+    for file in files:
+        if file.endswith(".zip"):
+             print(os.path.join(root, file))
+
 packageList = "packagelist.txt"
 current_dir = os.getcwd()
 print "Current directory " + current_dir
 if os.path.isfile(packageList):
     with open(packageList) as fp:
         for package in fp:
+            package = package.strip('\n')
+            package = package.strip('\t')
+            package = package.strip('\r')
             print "Package is: @\"" + current_dir + "/packages/" + package + "\""
             c1 = pycurl.Curl()
             c1.setopt(c1.URL, baseUrl + "/crx/packmgr/service.jsp")
             c1.setopt(c1.POST, 1)
             c1.setopt(pycurl.USERPWD, password)
             file_name = current_dir + "/packages/" + package
-            #print file_name
+            #file_name = "./packages/" + package
+            print file_name
             c1.setopt(c1.HTTPPOST, [('file', (c1.FORM_FILE, file_name)), ('force', 'true'), ('install', 'true')])
             c1.perform()
             print "Installed package " + package
